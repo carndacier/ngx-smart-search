@@ -13,7 +13,7 @@
                     "action": "",
                     "followings": [
                       {
-                        "action": "Contacts/ContactedLast|##|days",
+                        "action": "Contacts/ContactedLast?type=days&value=##",
                         "followings": [],
                         "isLast": true,
                         "keys": [
@@ -21,7 +21,7 @@
                         ]
                       },
                       {
-                        "action": "Contacts/ContactedLast|##|months",
+                        "action": "Contacts/ContactedLast?type=months&value=##",
                         "followings": [],
                         "isLast": true,
                         "keys": [
