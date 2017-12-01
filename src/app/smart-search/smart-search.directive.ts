@@ -1,6 +1,6 @@
-import { Directive, Input } from '@angular/core';
-import { SmartSearchConfig, SmartSearchKey } from './smart-search-config.model';
-import { OnChanges, SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Directive, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+
+import { SmartSearchConfig, SmartSearchKey }      from './smart-search-config.model';
 
 @Directive({
   selector: '[slSmartSearch]'
@@ -10,13 +10,18 @@ export class SmartSearchDirective implements OnChanges {
   @Input('smartValue') public value: string;
   @Input('smartConfiguration') public configuration: SmartSearchConfig;
 
+  @Output() onResult = new EventEmitter();
+
+  private showAs: string = "";
   private isComplete: boolean = false;
 
-  constructor() { alert('In it') }
+  constructor() { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes != null && changes['value'] != null && changes['value'].currentValue != changes['value'].previousValue) {
+      this.showAs = "";
       this.isComplete = false;
+
       this.execute(changes['value'].currentValue);
     }
   }
@@ -25,7 +30,7 @@ export class SmartSearchDirective implements OnChanges {
     let result = this.sliceString("", val, this.configuration.keys);
     if (result != null) {
       if (this.isComplete)
-        alert(result);
+        this.onResult.emit({ action: result, showAs: this.showAs });
     }
   }
 
@@ -35,18 +40,57 @@ export class SmartSearchDirective implements OnChanges {
     if (val == null || val == '')
       return action;
 
+    // Remove extr spaces
+    val = val.replace(/\s+/g,' ').trim();
+    if (val[0] == ' ') val = val.substr(1);
+
     keys.forEach(config => {
-      let key = config.keys.find(key => val.substr(0, key.length) != null);
+
+      // Find a matching key
+      let key = config.keys.find(key => this.evaluate(key, val) > -1);
       if (key != null) {
-        action = (action != '' ? ' ' : '') + config.action;
-        if (!config.isLast)
-          action = this.sliceString(action, val.substr(key.length - 1), config.followings);
-        else {
+        // Save the action related
+        action += this.evaluateAction(key, val, config.action);
+
+        let remaining = val.substr(key.length);
+        if (config.isLast)
           this.isComplete = true;
-          return action;
-        }
+
+          if (config.showAs != null && config.showAs.length > 0)
+            this.showAs = this.getShowType(config.showAs, val);
+          
+        if (config.followings != null && config.followings.length > 0)
+          action = this.sliceString(action, remaining, config.followings);
       }
     });
     return action;
+  }
+
+  private evaluate(key: string, value: string) {
+
+    let result = value.toLowerCase().indexOf(key.toLowerCase());
+    if (result == -1 && key.indexOf("##") == 0) {
+      let newKey = key.replace('##', '').replace(/\s+/g,' ').trim();
+      result = this.evaluate(newKey, value);
+    }
+    return result;
+  }
+
+  private evaluateAction(key: string, val: string, action: string) {
+
+    let nbrIndex = key.indexOf('##');
+    if (nbrIndex > -1)
+      return action.replace('##', val.substr(nbrIndex, val.substr(nbrIndex).indexOf(' ')));
+    return action;
+  }
+
+  private getShowType(showAs: Array<string>, val: string): string {
+
+    for (let x = 0; x <= showAs.length - 1; x++) {
+      let showType = showAs[x];
+      if (val.toLowerCase().indexOf("in a " + showType) > -1)
+        return showType;
+    }
+    return showAs[0];
   }
 }

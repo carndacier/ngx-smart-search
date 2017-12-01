@@ -8,5 +8,6 @@ export class SmartSearchKey {
     public keys: Array<string>;
 
     public isLast: boolean;
+    public showAs: Array<string>;
     public followings: Array<SmartSearchKey>;
 }

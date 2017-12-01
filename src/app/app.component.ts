@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import { Component }  from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
 import { SmartSearchConfig, SmartSearchKey } from './smart-search/smart-search-config.model';
+
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-root',
@@ -11,15 +15,22 @@ export class AppComponent {
   public value: string;
   public configuration: SmartSearchConfig;
 
-  constructor() {
+  public showAs: string;
+  public result: string;
+  
+  constructor(private http: HttpClient) {
     this.configuration = new SmartSearchConfig();
     this.configuration.keys = [];
 
-    this.configuration.keys.push({
-      action: "YAY",
-      followings: [],
-      isLast: true,
-      keys: [ "get", "retrieve", "show me", "show" ]
-    })
+    let self = this;
+    this.http.get('assets/config.json').subscribe(res => 
+      this.configuration = <SmartSearchConfig>res
+    );
+  }
+
+  public getResult(event) {
+    this.result = event.action;
+    if (event.showAs)
+      this.showAs = event.showAs;
   }
 }
