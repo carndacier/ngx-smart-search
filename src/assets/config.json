@@ -1,0 +1,82 @@
+{
+    "keys": [
+      {
+        "action": "SELECT * FROM ",
+        "followings": [
+          {
+            "action": "contact ",
+            "followings": [
+              {
+                "action": "WHERE wdx_lastmeetingdate <= ",
+                "followings": [
+                  {
+                    "action": "",
+                    "followings": [
+                      {
+                        "action": "DATEADD(dd, -##, GETDATE())",
+                        "followings": [],
+                        "isLast": true,
+                        "keys": [
+                          "## days"
+                        ]
+                      },
+                      {
+                        "action": "DATEADD(mm, -##, GETDATE())",
+                        "followings": [],
+                        "isLast": true,
+                        "keys": [
+                          "## months"
+                        ],
+                        "showAs": ["grid", "pie chart", "list"]
+                      }
+                    ],
+                    "isLast": false,
+                    "keys": [
+                      "in the last",
+                      "for the past"
+                    ]
+                  }
+                ],
+                "isLast": false,
+                "keys": [
+                  "not contacted",
+                  "not met",
+                  "I haven't met",
+                  "I have not met",
+                  "I haven't contacted",
+                  "I have not contacted"
+                ]
+              }
+            ],
+            "isLast": true,
+            "keys": [
+              "my contacts",
+              "contacts",
+              "my clients",
+              "clients",
+              "client contacts",
+              "my client contacts"
+            ]
+          },
+          {
+            "action": "opportunity ",
+            "followings": [],
+            "isLast": true,
+            "keys": [
+              "my applications",
+              "applications",
+              "opportunities",
+              "my opportunities"
+            ]
+          }
+        ],
+        "isLast": false,
+        "keys": [
+          "get",
+          "retrieve",
+          "show me",
+          "show"
+        ]
+      }
+    ]
+  }
