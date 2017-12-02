@@ -1,6 +1,6 @@
 import { Directive, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
-import { SmartSearchConfig, SmartSearchKey }      from './smart-search-config.model';
+import { SmartSearchConfig, SmartSearchKey }                                from './smart-search-config.model';
 
 @Directive({
   selector: '[slSmartSearch]'

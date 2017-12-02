@@ -1,0 +1,31 @@
+{
+    "name": "ngx-smart-search",
+    "version": "1.0.0",
+    "description": "An Angular module for smart search. Configure your nodes and let the user search with natural language.",
+    "main": "bundles/smartsearch.umd.js",
+    "module": "index.js",
+    "typings": "index.d.ts",
+    "keywords": [
+        "angular",
+        "angular2",
+        "angular 2",
+        "angular4",
+        "search",
+        "smart",
+        "smart-search",
+        "speech"
+    ],
+    "author": "Sacha Lachkar",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/carndacier/ngx-smart-search.git"
+    },
+    "homepage": "https://github.com/carndacier/ngx-smart-search",
+    "bugs": {
+        "url": "https://github.com/carndacier/ngx-smart-search/issues"
+    },
+    "peerDependencies": {
+        "@angular/core": "^2.4.0 || ^4.0.0"
+    }
+}
