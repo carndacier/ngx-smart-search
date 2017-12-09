@@ -28,7 +28,7 @@ export class AppComponent {
     );
   }
 
-  public getResult(event) {
+  public getResult(event: any) {
     this.result = event.action;
     if (event.showAs)
       this.showAs = event.showAs;
