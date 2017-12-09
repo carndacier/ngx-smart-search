@@ -23,7 +23,7 @@ export class AppComponent {
     this.configuration.keys = [];
 
     let self = this;
-    this.http.get('assets/config.json').subscribe(res => 
+    this.http.get('assets/config1.json').subscribe(res => 
       this.configuration = <SmartSearchConfig>res
     );
   }

@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "ngx-smart-search"
+    "name": "smart-search"
   },
   "apps": [
     {
@@ -17,7 +17,7 @@
       "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
-      "prefix": "sl",
+      "prefix": "app",
       "styles": [
         "styles.css"
       ],

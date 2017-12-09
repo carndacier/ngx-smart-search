@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('ngx-smart-search App', () => {
+describe('smart-search App', () => {
   let page: AppPage;
 
   beforeEach(() => {
