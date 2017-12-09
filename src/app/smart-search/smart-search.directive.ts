@@ -50,7 +50,7 @@ export class SmartSearchDirective implements OnChanges {
       let key = config.keys.find(key => this.evaluate(key, val) > -1);
       if (key != null) {
         // Save the action related
-        action += this.evaluateAction(key, val, config.action);
+        action += this.evaluateAction(key, val, config.action, config.followings);
 
         let remaining = val.substr(key.length);
         if (config.isLast)
@@ -69,18 +69,40 @@ export class SmartSearchDirective implements OnChanges {
   private evaluate(key: string, value: string) {
 
     let result = value.toLowerCase().indexOf(key.toLowerCase());
-    if (result == -1 && key.indexOf("##") == 0) {
+    if (result == -1 && key.indexOf("##") != -1) {
       let newKey = key.replace('##', '').replace(/\s+/g,' ').trim();
       result = this.evaluate(newKey, value);
     }
     return result;
   }
 
-  private evaluateAction(key: string, val: string, action: string) {
+  private evaluateAction(key: string, val: string, action: string, followings: Array<SmartSearchKey> = []) {
 
     let nbrIndex = key.indexOf('##');
-    if (nbrIndex > -1)
-      return action.replace('##', val.substr(nbrIndex, val.substr(nbrIndex).indexOf(' ')));
+    if (nbrIndex > -1) {
+
+      let end = -1;
+
+      for (let x = 0; x < followings.length; x++) {
+
+        let following = followings[x];
+        for (let y = 0; y < following.keys.length; y++) {
+          let followKey = following.keys[y];
+          end = this.evaluate(followKey, val);
+          if (end != -1) {
+            end = end - nbrIndex;
+            break;
+          }
+        }
+        if (end != -1)
+        break;
+      }
+
+      // if (end == -1) end = val.substr(nbrIndex).indexOf(' ');
+      if (end == -1) end = val.substr(nbrIndex).length;
+
+      return action.replace('##', val.substr(nbrIndex, end));
+    }
     return action;
   }
 
