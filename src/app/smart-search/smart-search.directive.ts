@@ -83,22 +83,17 @@ export class SmartSearchDirective implements OnChanges {
 
       let end = -1;
 
-      for (let x = 0; x < followings.length; x++) {
+      for (let x = 0; x < followings.length; x++) { let following = followings[x];
 
-        let following = followings[x];
-        for (let y = 0; y < following.keys.length; y++) {
-          let followKey = following.keys[y];
+        for (let y = 0; y < following.keys.length; y++) { let followKey = following.keys[y];
+
           end = this.evaluate(followKey, val);
-          if (end != -1) {
-            end = end - nbrIndex;
-            break;
-          }
+          if (end != -1) { end = end - nbrIndex; break; }
         }
-        if (end != -1)
-        break;
+
+        if (end != -1) break;
       }
 
-      // if (end == -1) end = val.substr(nbrIndex).indexOf(' ');
       if (end == -1) end = val.substr(nbrIndex).length;
 
       return action.replace('##', val.substr(nbrIndex, end));
